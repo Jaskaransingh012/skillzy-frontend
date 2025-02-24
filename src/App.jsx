@@ -10,12 +10,8 @@ import Signup from './pages/SignUp';
 import LoginPage from './pages/Login';
 import { AuthContext, AuthProvider } from '../AuthContext';
 import { Toaster } from 'react-hot-toast';
-<<<<<<< HEAD
-import CourseEnrollment from './pages/CourseEnrollment';
-=======
 import UserProfile from './pages/profile';
-// import ProfilePage from './pages/profile';
->>>>>>> 2b19e64bac329f0a533282c25fb2bec06e404811
+import CourseEnrollment from './pages/CourseEnrollment';
 
 
 function App() {
