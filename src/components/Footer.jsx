@@ -6,9 +6,9 @@ const Footer = () => {
         <div className="flex items-center space-x-2">
           {/* Logo (Replace with actual image if needed) */}
           <div className="w-6 h-6 bg-[#C2FF44] flex justify-center items-center rounded-md">
-            <span className="text-black font-bold">M</span>
+            {/* <span className="text-black font-bold">M</span> */}
           </div>
-          <span className="text-lg font-bold">Moovin</span>
+          <span className="text-lg font-bold">Skillzy</span>
         </div>
 
         {/* Product Links */}
@@ -27,7 +27,7 @@ const Footer = () => {
 
         {/* Company Links */}
         <div className="mt-6 md:mt-0">
-          <h3 className="text-lg font-semibold mb-2">Company</h3>
+          <h3 className="text-lg font-semibold mb-2">Skillzy</h3>
           <ul className="text-gray-400 space-y-1">
             <li>About Us</li>
             <li>Contact</li>
@@ -39,7 +39,7 @@ const Footer = () => {
 
       {/* Copyright Text */}
       <div className="text-center text-gray-500 text-sm mt-10">
-        Copyright © 2022 E-Card, Inc. All rights reserved.
+        Copyright © 2025 Skillzy, Inc. All rights reserved.
       </div>
     </footer>
   );
