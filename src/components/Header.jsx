@@ -1,11 +1,10 @@
-// Header.jsx
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../AuthContext';
 import logo from "../assets/logo.png";
 
 const Header = () => {
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated, logout, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -25,18 +24,30 @@ const Header = () => {
         <Link to="/" className="hover:text-black transition">Home</Link>
         <Link to="/courses" className="hover:text-black transition">Courses</Link>
         <Link to="/about" className="hover:text-black transition">About</Link>
-        <Link to="/favorites" className="hover:text-black transition">Favorite</Link>
+        {isAuthenticated && user?.role === 'learner' && (
+          <Link to="/favorites" className="hover:text-black transition">Favorite</Link>
+        )}
       </nav>
 
       {/* Authentication Buttons */}
       <div className="flex items-center space-x-6">
         {isAuthenticated ? (
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 text-white text-sm px-6 py-2 rounded-full hover:bg-red-600 transition"
-          >
-            Log Out
-          </button>
+          <>
+            {user?.role === 'seller' && (
+              <Link
+                to="/add-course"
+                className="bg-[#665EFF] text-white text-sm px-6 py-2 rounded-full hover:bg-[#564EDF] transition"
+              >
+                Add Course
+              </Link>
+            )}
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white text-sm px-6 py-2 rounded-full hover:bg-red-600 transition"
+            >
+              Log Out
+            </button>
+          </>
         ) : (
           <>
             <Link to="/signin" className="border-2 border-blue-500 px-6 py-2 rounded-full text-gray-600 text-sm hover:text-black transition">
