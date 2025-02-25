@@ -1,4 +1,3 @@
-// Header.jsx
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../AuthContext';
@@ -21,11 +20,16 @@ const Header = () => {
       </Link>
 
       {/* Navigation Links */}
-      <nav className="flex space-x-8 text-gray-700 text-sm font-medium">
-        <Link to="/" className="hover:text-black transition">Home</Link>
-        <Link to="/courses" className="hover:text-black transition">Courses</Link>
-        <Link to="/about" className="hover:text-black transition">About</Link>
-        <Link to="/favorites" className="hover:text-black transition">Favorite</Link>
+      <nav className="flex space-x-8 text-gray-700 text-base font-medium">
+        {['Home', 'Courses', 'About', 'Favorites', 'Profile'].map((item) => (
+          <Link 
+            key={item} 
+            to={`/${item.toLowerCase()}`} 
+            className="relative hover:text-black transition after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-300 hover:after:w-full"
+          >
+            {item}
+          </Link>
+        ))}
       </nav>
 
       {/* Authentication Buttons */}
