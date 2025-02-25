@@ -1,7 +1,77 @@
 import Vector from "../assets/Vector.png";
 import chemistry from "../assets/chemistry.png";
+import product_design from "../assets/product_design.jpg";
+import web_design from "../assets/web_design.jpg";
+import software_dev from "../assets/software_dev.jpg";
+import copywriting from "../assets/copywriting.jpg";
+import music from "../assets/music.jpg";
+import os from "../assets/os.jpg";
+import ui from "../assets/ui.jpg";
+import video_edit from "../assets/vieeo_edit.jpg";
+import { useNavigate } from "react-router-dom";
 
+
+
+const courses = [
+  {
+    id: 1,
+    title: "Product Design",
+    price: 299,
+    body: "Craft Stunning Websites with Creativity & Code!",
+    img: product_design,
+  },
+  {
+    id: 2,
+    title: "Web Designing",
+    price: 249,
+    body: "Craft Stunning Websites with Creativity & Code!",
+    img: web_design,
+  },
+  {
+    id: 3,
+    title: "Software Development",
+    price: 249,
+    body: "Build Powerful Software for a Digital Future!",
+    img: software_dev,
+  },
+  {
+    id: 4,
+    title: "Copywriting",
+    price: 299,
+    body: "Write Words That Sell, Inspire, and Engage!",
+    img: copywriting,
+  },
+  {
+    id: 5,
+    title: "Music Production",
+    price: 189,
+    body: "Turn Your Sound into a Masterpiece!",
+    img: music,
+  },
+  {
+    id: 6,
+    title: "Operating System",
+    price: 199,
+    body: "Master the Backbone of Modern Computing!",
+    img: os,
+  },
+  {
+    id: 7,
+    title: "UI/UX Designing",
+    price: 179,
+    body: "Create Seamless Experiences with Stunning Designs!",
+    img: ui,
+  },
+  {
+    id: 8,
+    title: "Video Editing",
+    price: 145,
+    body: "",
+    img: video_edit,
+  },
+];
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <>
       <section className="bg-gradient-to-r from-[#E5FF80] to-[#C2FF44] min-h-[67vh] flex items-center px-6 md:px-16 relative overflow-hidden">
@@ -58,14 +128,19 @@ const Home = () => {
               Why you should <br /> choose SkillZy?
             </h2>
             <p className="text-gray-700 text-lg mt-4">
-              “With 35 years of experience, we’re dedicated to digital excellence.”
+              “With 35 years of experience, we’re dedicated to digital
+              excellence.”
             </p>
             <button className="mt-6 bg-[#C2FF44] text-black px-6 py-2 rounded-full text-lg font-bold flex items-center hover:opacity-80 transition">
               About us →
             </button>
           </div>
           <div className="flex justify-center relative">
-            <img src={chemistry} alt="Why Choose SkillZy" className="max-w-xs md:max-w-sm relative z-10" />
+            <img
+              src={chemistry}
+              alt="Why Choose SkillZy"
+              className="max-w-xs md:max-w-sm relative z-10"
+            />
             <div className="absolute top-5 left-5 w-28 h-28 bg-[#E5FF80] opacity-50 rounded-full -z-10"></div>
             <div className="absolute bottom-5 right-5 w-24 h-24 bg-[#C2FF44] opacity-40 rounded-full -z-10"></div>
           </div>
@@ -76,24 +151,29 @@ const Home = () => {
       <section className="bg-gradient-to-r from-[#E5FF80] to-[#C2FF44] py-16 px-6 md:px-16 text-center">
         <h2 className="text-4xl font-extrabold text-black mb-10">Available Courses!</h2>
 
-        {/* Course Grid */}
+        {/* Updated Course Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {Array(8).fill(0).map((_, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-md p-4">
-              <div className="bg-gray-200 h-32 rounded-md flex items-center justify-center">
-                <img src={chemistry} alt="Course Image" className="w-12 h-12 opacity-50" />
+          {courses.map((course) => (
+            <div key={course.id} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300 group">
+              <div className="bg-gray-200 h-32 rounded-md flex items-center justify-center overflow-hidden">
+                <img 
+                  src={course.img} 
+                  alt={course.title} 
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
               </div>
               <div className="mt-4 text-left">
-                <h3 className="text-sm font-semibold text-black">Text</h3>
-                <p className="text-sm font-bold text-black"> $0</p>
-                <p className="text-sm text-gray-500">Body text.</p>
+                <h3 className="text-sm font-semibold text-black">{course.title}</h3>
+                <p className="text-sm font-bold text-black">${course.price}</p>
+                <p className="text-sm text-gray-500 mt-2">{course.body}</p>
               </div>
             </div>
           ))}
         </div>
 
         {/* Explore Button */}
-        <button className="mt-10 bg-black text-white px-8 py-2 rounded-full text-lg font-bold hover:opacity-80 transition">
+
+        <button onClick={()=>{navigate("/courses")}} className="mt-10 bg-black text-white px-8 py-2 rounded-full text-lg font-bold hover:opacity-80 transition">
           Explore &gt;
         </button>
       </section>
@@ -104,7 +184,8 @@ const Home = () => {
           How will your courses be personalized?
         </h2>
         <p className="text-gray-400 max-w-xl mx-auto">
-          Your skill will be centered on personalized courses based on your strengths and preferences.
+          Your skill will be centered on personalized courses based on your
+          strengths and preferences.
         </p>
 
         {/* Start Test Button */}
@@ -117,33 +198,42 @@ const Home = () => {
           {/* Card 1 */}
           <div className="bg-[#1E1E1E] p-6 rounded-lg text-center">
             <div className="flex justify-center">
-              <span className="bg-[#C2FF44] text-black px-4 py-2 rounded-md text-lg font-bold">A+</span>
+              <span className="bg-[#C2FF44] text-black px-4 py-2 rounded-md text-lg font-bold">
+                A+
+              </span>
             </div>
             <h3 className="text-lg font-bold mt-4">Skill Assessment</h3>
             <p className="text-gray-400 text-sm mt-2">
-              You will be taking tests to figure out where your skill preferences you want to pursue.
+              You will be taking tests to figure out where your skill
+              preferences you want to pursue.
             </p>
           </div>
 
           {/* Card 2 */}
           <div className="bg-[#1E1E1E] p-6 rounded-lg text-center">
             <div className="flex justify-center">
-              <span className="bg-[#C2FF44] text-black px-4 py-2 rounded-md text-lg font-bold">✖</span>
+              <span className="bg-[#C2FF44] text-black px-4 py-2 rounded-md text-lg font-bold">
+                ✖
+              </span>
             </div>
             <h3 className="text-lg font-bold mt-4">Skill Gap Analysis</h3>
             <p className="text-gray-400 text-sm mt-2">
-              The second test will figure out how you perform in your skill and see if there is a gap to cover.
+              The second test will figure out how you perform in your skill and
+              see if there is a gap to cover.
             </p>
           </div>
 
           {/* Card 3 */}
           <div className="bg-[#1E1E1E] p-6 rounded-lg text-center">
             <div className="flex justify-center">
-              <span className="bg-[#C2FF44] text-black px-4 py-2 rounded-md text-lg font-bold">🖼</span>
+              <span className="bg-[#C2FF44] text-black px-4 py-2 rounded-md text-lg font-bold">
+                🖼
+              </span>
             </div>
             <h3 className="text-lg font-bold mt-4">Courses Delivery</h3>
             <p className="text-gray-400 text-sm mt-2">
-              Then we will recommend courses that might suit you to close your skill gaps efficiently.
+              Then we will recommend courses that might suit you to close your
+              skill gaps efficiently.
             </p>
           </div>
         </div>
@@ -153,6 +243,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
