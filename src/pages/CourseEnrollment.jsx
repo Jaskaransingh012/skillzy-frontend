@@ -9,13 +9,6 @@ const CourseEnrollment = () => {
   const { isAuthenticated } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [showPaymentForm, setShowPaymentForm] = useState(false);
-  const [cardDetails, setCardDetails] = useState({
-    number: '',
-    expiry: '',
-    cvc: '',
-    name: ''
-  });
 
   // Mock course data
   const course = {
@@ -23,34 +16,7 @@ const CourseEnrollment = () => {
     title: 'Web Development Bootcamp',
     price: 299,
     isPaid: true,
-  };
-
-  const handleDummyPayment = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    if (!cardDetails.number || !cardDetails.expiry || !cardDetails.cvc || !cardDetails.name) {
-      setError('Please fill all card details');
-      setLoading(false);
-      return;
-    }
-
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    try {
-      // Simulate successful payment
-      console.log('Dummy payment processed with:', cardDetails);
-      
-      // Complete enrollment
-      await axios.post('/api/enroll', { courseId: id });
-      navigate(`/courses/${id}/content`);
-    } catch (err) {
-      setError(err.response?.data?.message || 'Payment processing failed');
-    } finally {
-      setLoading(false);
-    }
+    // ... other course details
   };
 
   const handleEnrollment = async () => {
@@ -64,7 +30,14 @@ const CourseEnrollment = () => {
 
     try {
       if (course.price > 0) {
-        setShowPaymentForm(true);
+        // Handle paid course enrollment
+        const response = await axios.post('/api/create-payment-intent', {
+          courseId: id,
+          amount: course.price
+        });
+        
+        // Redirect to payment gateway
+        window.location = response.data.paymentUrl;
       } else {
         // Handle free enrollment
         await axios.post('/api/enroll', { courseId: id });
@@ -76,80 +49,6 @@ const CourseEnrollment = () => {
       setLoading(false);
     }
   };
-
-  const PaymentForm = () => (
-    <form onSubmit={handleDummyPayment} className="space-y-4 mt-6">
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Card Number</label>
-          <input
-            type="text"
-            placeholder="4242 4242 4242 4242"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
-            value={cardDetails.number}
-            onChange={(e) => setCardDetails({...cardDetails, number: e.target.value})}
-            required
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Expiry Date</label>
-            <input
-              type="text"
-              placeholder="MM/YY"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
-              value={cardDetails.expiry}
-              onChange={(e) => setCardDetails({...cardDetails, expiry: e.target.value})}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">CVC</label>
-            <input
-              type="text"
-              placeholder="123"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
-              value={cardDetails.cvc}
-              onChange={(e) => setCardDetails({...cardDetails, cvc: e.target.value})}
-              required
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Cardholder Name</label>
-          <input
-            type="text"
-            placeholder="John Doe"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
-            value={cardDetails.name}
-            onChange={(e) => setCardDetails({...cardDetails, name: e.target.value})}
-            required
-          />
-        </div>
-
-        <div className="flex gap-4">
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex-1 py-3 px-6 bg-[#E5FF80] hover:bg-[#d2f06d] rounded-lg font-medium transition-colors disabled:opacity-50"
-          >
-            {loading ? 'Processing Payment...' : `Pay $${course.price}`}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setShowPaymentForm(false)}
-            className="flex-1 py-3 px-6 bg-gray-200 hover:bg-gray-300 rounded-lg font-medium transition-colors"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-    </form>
-  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#E5FF80] to-transparent py-8 px-4 sm:px-6 lg:px-8">
@@ -181,31 +80,27 @@ const CourseEnrollment = () => {
               </ul>
             </div>
 
-            {!showPaymentForm && (
-              <button
-                onClick={handleEnrollment}
-                disabled={loading}
-                className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
-                  course.price > 0 
-                    ? 'bg-[#E5FF80] hover:bg-[#d2f06d] text-gray-900'
-                    : 'bg-green-500 hover:bg-green-600 text-white'
-                } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              >
-                {loading ? 'Processing...' : (
-                  course.price > 0 ? `Purchase Course - $${course.price}` : 'Enroll for Free'
-                )}
-              </button>
-            )}
+            <button
+              onClick={handleEnrollment}
+              disabled={loading}
+              className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
+                course.price > 0 
+                  ? 'bg-[#E5FF80] hover:bg-[#d2f06d] text-gray-900'
+                  : 'bg-green-500 hover:bg-green-600 text-white'
+              } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {loading ? 'Processing...' : (
+                course.price > 0 ? `Purchase Course - $${course.price}` : 'Enroll for Free'
+              )}
+            </button>
 
-            {showPaymentForm && <PaymentForm />}
-
-            {course.price > 0 && !showPaymentForm && (
+            {course.price > 0 && (
               <div className="text-center text-sm text-gray-600 mt-4">
-                Test Card Details:
-                <div className="mt-2 text-left bg-gray-50 p-3 rounded-lg">
-                  <p>Card Number: 4242 4242 4242 4242</p>
-                  <p>Expiry: Any future date</p>
-                  <p>CVC: Any 3 digits</p>
+                Secure payment processing powered by Stripe
+                <div className="flex justify-center mt-2 space-x-4">
+                  <img src="/visa.svg" alt="Visa" className="h-6" />
+                  <img src="/mastercard.svg" alt="Mastercard" className="h-6" />
+                  <img src="/stripe.svg" alt="Stripe" className="h-6" />
                 </div>
               </div>
             )}
