@@ -21,7 +21,7 @@ const Header = () => {
 
       {/* Navigation Links */}
       <nav className="flex space-x-8 text-gray-700 text-base font-medium">
-        {['Home', 'Courses', 'About', 'Favorites', 'Profile'].map((item) => (
+        {['Home', 'Courses', 'Favorites', 'Profile'].map((item) => (
           <Link 
             key={item} 
             to={`/${item.toLowerCase()}`} 
