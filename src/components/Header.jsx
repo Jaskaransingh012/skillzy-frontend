@@ -24,7 +24,7 @@ const Header = () => {
         {['Home', 'Courses', 'Favorites', 'Profile'].map((item) => (
           <Link 
             key={item} 
-            to={item=="home"?"/":`/${item.toLowerCase()}`} 
+            to={item=="Home"?"/":`/${item.toLowerCase()}`} 
             className="relative hover:text-black transition after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-300 hover:after:w-full"
           >
             {item}
